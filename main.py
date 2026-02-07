@@ -14,7 +14,11 @@ app.add_middleware(
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,   # kiểm tra connection trước khi dùng
+    pool_recycle=300,     # recycle connection sau 5 phút
+)
 
 @app.get("/")
 def home():
