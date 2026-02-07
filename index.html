@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách Users</title>
+</head>
+<body>
+    <h2>Danh sách Users</h2>
+
+    <button onclick="loadUsers()">Tải dữ liệu</button>
+
+    <ul id="user-list"></ul>
+
+    <script>
+        function loadUsers() {
+            fetch("https://project-dtlk.onrender.com/users")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("API lỗi");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const ul = document.getElementById("user-list");
+                    ul.innerHTML = ""; // xoá dữ liệu cũ
+
+                    data.forEach(user => {
+                        const li = document.createElement("li");
+                        li.textContent = user.id + " - " + user.name;
+                        ul.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    alert("Không tải được dữ liệu");
+                    console.error(error);
+                });
+        }
+    </script>
+</body>
+</html>
